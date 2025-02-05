@@ -13,7 +13,7 @@ class QuestionPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class QuestionPolicy
      */
     public function view(User $user, Question $question): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,8 @@ class QuestionPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasRole('admin') || $user->hasRole('moderator');
+
     }
 
     /**
@@ -37,7 +38,8 @@ class QuestionPolicy
      */
     public function update(User $user, Question $question): bool
     {
-        return false;
+        return $user->hasRole('admin') || $user->hasRole('moderator');
+
     }
 
     /**
@@ -45,7 +47,7 @@ class QuestionPolicy
      */
     public function delete(User $user, Question $question): bool
     {
-        return false;
+        return $user->hasRole('admin') ;
     }
 
     /**
@@ -53,7 +55,8 @@ class QuestionPolicy
      */
     public function restore(User $user, Question $question): bool
     {
-        return false;
+        return $user->hasRole('admin') ;
+
     }
 
     /**
@@ -61,6 +64,7 @@ class QuestionPolicy
      */
     public function forceDelete(User $user, Question $question): bool
     {
-        return false;
+        return $user->hasRole('admin') ;
+
     }
 }

@@ -13,7 +13,7 @@ class SubjectPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class SubjectPolicy
      */
     public function view(User $user, Subject $subject): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,8 @@ class SubjectPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasRole('admin') ;
+
     }
 
     /**
@@ -37,7 +38,8 @@ class SubjectPolicy
      */
     public function update(User $user, Subject $subject): bool
     {
-        return false;
+        return $user->hasRole('admin') ;
+
     }
 
     /**
@@ -45,7 +47,8 @@ class SubjectPolicy
      */
     public function delete(User $user, Subject $subject): bool
     {
-        return false;
+        return $user->hasRole('admin') ;
+
     }
 
     /**
@@ -53,7 +56,8 @@ class SubjectPolicy
      */
     public function restore(User $user, Subject $subject): bool
     {
-        return false;
+        return $user->hasRole('admin') ;
+
     }
 
     /**
@@ -61,6 +65,7 @@ class SubjectPolicy
      */
     public function forceDelete(User $user, Subject $subject): bool
     {
-        return false;
+        return $user->hasRole('admin') ;
+
     }
 }

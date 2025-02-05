@@ -13,7 +13,7 @@ class PastQuestionMaterialPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class PastQuestionMaterialPolicy
      */
     public function view(User $user, PastQuestionMaterial $pastQuestionMaterial): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class PastQuestionMaterialPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasRole('admin') || $user->hasRole('moderator');
     }
 
     /**
@@ -37,7 +37,9 @@ class PastQuestionMaterialPolicy
      */
     public function update(User $user, PastQuestionMaterial $pastQuestionMaterial): bool
     {
-        return false;
+        
+        return $user->hasRole('admin') || $user->hasRole('moderator');
+
     }
 
     /**
@@ -45,7 +47,8 @@ class PastQuestionMaterialPolicy
      */
     public function delete(User $user, PastQuestionMaterial $pastQuestionMaterial): bool
     {
-        return false;
+        return $user->hasRole('admin');
+
     }
 
     /**
@@ -53,7 +56,7 @@ class PastQuestionMaterialPolicy
      */
     public function restore(User $user, PastQuestionMaterial $pastQuestionMaterial): bool
     {
-        return false;
+        return $user->hasRole('admin');
     }
 
     /**
@@ -61,6 +64,7 @@ class PastQuestionMaterialPolicy
      */
     public function forceDelete(User $user, PastQuestionMaterial $pastQuestionMaterial): bool
     {
-        return false;
+        return $user->hasRole('admin');
+
     }
 }

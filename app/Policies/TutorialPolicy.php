@@ -13,7 +13,8 @@ class TutorialPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
+
     }
 
     /**
@@ -21,7 +22,7 @@ class TutorialPolicy
      */
     public function view(User $user, Tutorial $tutorial): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +30,8 @@ class TutorialPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->hasRole('admin') || $user->hasRole('moderator');
+
     }
 
     /**
@@ -37,7 +39,8 @@ class TutorialPolicy
      */
     public function update(User $user, Tutorial $tutorial): bool
     {
-        return false;
+        return $user->hasRole('admin') || $user->hasRole('moderator');
+
     }
 
     /**
@@ -45,7 +48,7 @@ class TutorialPolicy
      */
     public function delete(User $user, Tutorial $tutorial): bool
     {
-        return false;
+        return $user->hasRole('admin');
     }
 
     /**
@@ -53,7 +56,7 @@ class TutorialPolicy
      */
     public function restore(User $user, Tutorial $tutorial): bool
     {
-        return false;
+        return $user->hasRole('admin');
     }
 
     /**
@@ -61,6 +64,7 @@ class TutorialPolicy
      */
     public function forceDelete(User $user, Tutorial $tutorial): bool
     {
-        return false;
+        return $user->hasRole('admin');
+
     }
 }
