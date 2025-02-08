@@ -247,7 +247,7 @@ new #[Layout('components.layouts.admin')] class extends Component
             </div>
             @endscope
             @scope('cell_link', $tutorial)
-                   <a href='{{ Storage::url($tutorial->link)}}'> Visit </a>
+                   <a href='{{$tutorial->link}}' target="_blank"> Visit </a>
             @endscope
         </x-table>
     </div>
