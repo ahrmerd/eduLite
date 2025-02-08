@@ -3,7 +3,7 @@
 use Livewire\Volt\Component;
 use Livewire\Attributes\Layout;
 use App\Models\Subject;
-use App\Models\PastQuestionMaterial;
+use App\Models\Tutorial;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -17,12 +17,11 @@ new #[Layout('components.layouts.admin')] class extends Component
 
     public int $perPage = 10;
     public $confirmAction = null;
-    public ?PastQuestionMaterial $model = null;
+    public ?Tutorial $model = null;
     public array $sortBy = ['column' => 'id', 'direction' => 'desc'];
     public array $selected = [];
 
     public $subjects;
-    public $year = '';
     public $link = '';
     public $subject_id = '';
     public $search = '';
@@ -35,9 +34,9 @@ new #[Layout('components.layouts.admin')] class extends Component
     public bool $importModal = false;
     public $deleteId = 0;
 
-    public function mountModel($modelId): PastQuestionMaterial
+    public function mountModel($modelId): Tutorial
     {
-        return PastQuestionMaterial::findOrFail($modelId);
+        return Tutorial::findOrFail($modelId);
     }
 
     #[Computed()]
@@ -46,7 +45,7 @@ new #[Layout('components.layouts.admin')] class extends Component
         return $this->model != null;
     }
 
-    public function setModel(PastQuestionMaterial $model)
+    public function setModel(Tutorial $model)
     {
         $this->model = $model;
         $this->dispatch('model-changed', model: $model->id);
@@ -74,7 +73,7 @@ new #[Layout('components.layouts.admin')] class extends Component
 
     public function confirmedDeleteSelected()
     {
-        $models = PastQuestionMaterial::query()->findMany($this->selected);
+        $models = Tutorial::query()->findMany($this->selected);
 
         $models->each(function ($model): void {
             $model->delete();
@@ -83,8 +82,8 @@ new #[Layout('components.layouts.admin')] class extends Component
 
     public function confirmedDelete()
     {
-        $material = PastQuestionMaterial::query()->findOrFail($this->deleteId);
-        $material->delete();
+        $tutorial = Tutorial::query()->findOrFail($this->deleteId);
+        $tutorial->delete();
         $this->deleteId = 0;
     }
 
@@ -111,7 +110,7 @@ new #[Layout('components.layouts.admin')] class extends Component
         return $return;
     }
 
-    public function edit(PastQuestionMaterial $model)
+    public function edit(Tutorial $model)
     {
         $this->setModel($model);
         $this->editModal = true;
@@ -146,21 +145,19 @@ new #[Layout('components.layouts.admin')] class extends Component
         return [
             ['key' => 'id', 'label' => '#'],
             ['key' => 'subject.name', 'label' => 'Subject'],
-            ['key' => 'year', 'label' => 'Year'],
             ['key' => 'link', 'label' => 'Link'],
         ];
     }
 
     public function models()
     {
-        $query = PastQuestionMaterial::query()
+        $query = Tutorial::query()
             ->with('subject');
 
         if ($this->search) {
             $query->whereHas('subject', function ($q) {
                 $q->where('name', 'like', '%' . $this->search . '%');
             })
-            ->orWhere('year', 'like', '%' . $this->search . '%')
             ->orWhere('link', 'like', '%' . $this->search . '%');
         }
         
@@ -175,11 +172,11 @@ new #[Layout('components.layouts.admin')] class extends Component
     <div class="mb-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Past Question Materials</h1>
+                <h1 class="text-2xl font-bold text-gray-900">Tutorials</h1>
             </div>
             <div class="mt-4 md:mt-0">
                 <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">
-                    Total Records: {{ PastQuestionMaterial::count() }}
+                    Total Records: {{ Tutorial::count() }}
                 </span>
             </div>
         </div>
@@ -196,7 +193,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                     placeholder="Search..."
                     icon="o-magnifying-glass"
                     wire:model.live="search" />
-                <p class="mt-1 text-sm text-gray-500">Search by subject, year, or link</p>
+                <p class="mt-1 text-sm text-gray-500">Search by subject or link</p>
             </div>
             <x-mary-button
                 label="Advanced Filters"
@@ -223,7 +220,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                 <div class="space-x-2">
                     <x-mary-button
                         wire:click="openCreateModal"
-                        label="Add Material"
+                        label="Add Tutorial"
                         icon="o-plus"
                         class="btn-primary" />
                 </div>
@@ -249,19 +246,19 @@ new #[Layout('components.layouts.admin')] class extends Component
                     class="p-1 border-none btn-sm btn-error btn-outline" />
             </div>
             @endscope
-            @scope('cell_link', $material)
-                   <a href='{{ Storage::url($material->link)}}'> Visit   </a>
+            @scope('cell_link', $tutorial)
+                   <a href='{{ Storage::url($tutorial->link)}}'> Visit </a>
             @endscope
         </x-table>
     </div>
 
-    <x-mary-modal wire:model="createModal" class="backdrop-blur" title="Add New Past Question Material">
-        <livewire:admin.create-past-question-material />
+    <x-mary-modal wire:model="createModal" class="backdrop-blur" title="Add New Tutorial">
+        <livewire:admin.create-tutorial />
     </x-mary-modal>
 
-    <x-mary-modal wire:model="editModal" class="backdrop-blur" title="Edit Past Question Material">
+    <x-mary-modal wire:model="editModal" class="backdrop-blur" title="Edit Tutorial">
         @if ($this->model != null)
-        <livewire:admin.edit-past-question-material :model="$this->model" />
+        <livewire:admin.edit-tutorial :model="$this->model" />
         @endif
     </x-mary-modal>
 

@@ -192,7 +192,7 @@ new #[Layout('components.layouts.admin')] class extends Component
     <div class="mb-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Personnel Management</h1>
+                <h1 class="text-2xl font-bold text-gray-900">Subjects</h1>
             </div>
             <div class="mt-4 md:mt-0">
                 <span class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full">

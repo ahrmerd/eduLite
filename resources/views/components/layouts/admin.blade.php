@@ -131,6 +131,7 @@
                     </div>
             </div>
         </main>
+        <x-mary-toast/>
 
         <!-- Footer -->
         <footer class="bg-white border-t border-gray-200">
