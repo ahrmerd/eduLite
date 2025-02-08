@@ -14,7 +14,9 @@ return new class extends Migration
     {
         Schema::create('tutorials', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->foreignIdFor(Subject::class)->constrained();
+
             // $table->unsignedBigInteger('year');
             $table->string('link');
             $table->timestamps();

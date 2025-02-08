@@ -165,6 +165,7 @@ new #[Layout('components.layouts.admin')] class extends Component
         return [
             ['key' => 'id', 'label' => '#'],
             ['key' => 'name', 'label' => 'Name'],
+            ['key' => 'link', 'label' => 'Quiz'],
 
 
         ];
@@ -270,6 +271,9 @@ new #[Layout('components.layouts.admin')] class extends Component
                 <x-mary-button icon="o-trash" wire:click="delete({{ $model->id }})" spinner
                     class="p-1 border-none btn-sm btn-error btn-outline" />
             </div>
+            @endscope
+            @scope('cell_link', $subject)
+                   <a href='{{ route('admin.edit-quiz', $subject) }}' wire:navigate> Edit Quiz  </a>
             @endscope
         </x-table>
     </div>

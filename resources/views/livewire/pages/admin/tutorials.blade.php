@@ -145,6 +145,7 @@ new #[Layout('components.layouts.admin')] class extends Component
         return [
             ['key' => 'id', 'label' => '#'],
             ['key' => 'subject.name', 'label' => 'Subject'],
+            ['key' => 'title', 'label' => 'Title'],
             ['key' => 'link', 'label' => 'Link'],
         ];
     }

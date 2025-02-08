@@ -4,6 +4,9 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 Route::middleware('guest')->group(function () {
     Volt::route('register', 'pages.auth.register')
         ->name('register');
@@ -22,7 +25,14 @@ Route::middleware('auth')->group(function () {
     Volt::route('verify-email', 'pages.auth.verify-email')
         ->name('verification.notice');
 
-    Route::post('logout', function(){})->name('logout');
+    Route::post('logout', function(){
+        Auth::guard('web')->logout();
+
+        Session::invalidate();
+        Session::regenerateToken();
+        $this->redirect('/', navigate: true);
+        
+    })->name('logout');
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');

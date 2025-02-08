@@ -10,4 +10,10 @@ class Tutorial extends Model
     {
         return $this->belongsTo(Subject::class);
     }
+
+    public function getYouTubeId()
+    {
+        parse_str(parse_url($this->link, PHP_URL_QUERY), $params);
+        return $params['v'] ?? null;
+    }
 }

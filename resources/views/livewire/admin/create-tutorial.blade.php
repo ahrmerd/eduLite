@@ -15,6 +15,10 @@ new class extends Component {
     #[Validate('required|url')]
     public $link = '';
 
+
+    #[Validate('required')]
+    public $title = '';
+
     public $subjects;
 
     public function mount()
@@ -27,10 +31,7 @@ new class extends Component {
         if(request()->user()->can('create', Tutorial::class)){
             $data = $this->validate();
             
-            $tutorial = Tutorial::query()->create([
-                'subject_id' => $data['subject_id'],
-                'link' => $data['link']
-            ]);
+            $tutorial = Tutorial::query()->create($data);
 
             $this->dispatch('tutorial-created', tutorial: $tutorial);
             $this->reset(['subject_id', 'link']);
@@ -69,6 +70,17 @@ new class extends Component {
                 inline
             />
             <x-input-error :messages="$errors->get('subject_id')" class="mt-2" />
+        </div>
+
+
+        <!-- Link -->
+        <div class="mt-4">
+            <x-mary-input
+                wire:model="title"
+                label="Tutorial Title"
+                inline
+            />
+            <x-input-error :messages="$errors->get('title')" class="mt-2" />
         </div>
         
         <!-- Link -->

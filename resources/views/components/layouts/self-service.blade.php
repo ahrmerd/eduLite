@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title ?? config('app.name', 'Edu Lite') }}</title>
+    <title>{{ $title ?? config('app.name', 'Work & Persons') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -34,15 +34,16 @@
             <div>
                 <a href="/" class="flex ms-2 md:me-24">
                     <img src="logo.png" class=" h-14 me-3" alt="" />
-                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">EduLite Admin</span>
+                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Work &
+                        Persons</span>
                 </a>
             </div>
         </x-slot:brand>
 
         <x-slot:actions>
             <div class="flex flex-col">
-                <p>{{ auth()->user()->name }}</p>
-                <p class="text-xs">{{ auth()->user()->email }}</p>
+                <p>{{ auth('personnel')->user()->fullname }}</p>
+                <p class="text-xs">{{ auth('personnel')->user()->email }}</p>
             </div>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -60,26 +61,18 @@
         {{-- Notice the `main-drawer` reference here --}}
         <x-slot:sidebar drawer="main-drawer" collapsible class="bg-base-200">
 
-            @php
-            $sections = [
-            'dashboard' => ['icon' => 'lucide.layout-dashboard', 'label' => 'Dashboard', 'route' => 'admin.dashboard'],
-            // 'users' => ['icon' => 'lucide-users', 'label' => 'Users', 'route' => 'admin.users'],
-            'subjects' => ['icon' => 'lucide.graduation-cap', 'label' => 'Subjects', 'route' => 'admin.subjects'],
-            'ScoreBoard' => ['icon' => 'o-folder', 'label' => 'Score Board', 'route' => 'admin.scoreboard'],
-            // 'questions' => ['icon' => 'lucide-file-question', 'label' => 'Questions', 'route' => 'admin.questions'],
-            'attempts' => ['icon' => 'lucide.clipboard-list', 'label' => 'Quiz Attempts', 'route' => 'admin.quiz-attempts'],
-            'materials' => ['icon' => 'lucide.file-text', 'label' => 'Past Questions', 'route' => 'admin.materials'],
-            'tutorials' => ['icon' => 'lucide.video', 'label' => 'Tutorials', 'route' => 'admin.tutorials'],
-            // 'roles' => ['icon' => 'lucide-shield-check', 'label' => 'Roles', 'route' => 'admin.roles'],
-            ];
-            @endphp
+            
 
             {{-- Activates the menu item when a route matches the `link` property --}}
-           <x-mary-menu activate-by-route>
-                @foreach($sections as $key => $section)
-                <x-mary-menu-item title="{{ $section['label'] }}" icon="{{ $section['icon'] }}" link="{{ route($section['route']) }}" />
-                @endforeach
-
+            <x-mary-menu activate-by-route>
+                <x-mary-menu-item title="Personal Dashboard" icon="o-user-group" link="{{ route('personnel-dashboard') }}" />
+                <x-mary-menu-item title="Payslips" icon="o-banknotes" link="{{ route('selfservice.payslips') }}" />
+                <x-mary-menu-item title="Contacts" icon="o-phone" link="{{ route('personnels.contacts') }}" />
+                <x-mary-menu-item title="Referees" icon="o-user-circle" link="{{ route('personnels.referees') }}" />
+                <x-mary-menu-item title="Next of kins" icon="o-users" link="{{route('personnels.next-of-kin')}}" />
+                <x-mary-menu-item title="O Levels" icon="o-academic-cap" link="{{route('personnels.o-levels')}}" />
+                <x-mary-menu-item title="Certifications" icon="o-document-check" link="{{route('personnels.certifications')}}" />
+                <x-mary-menu-item title="Memberships" icon="o-identification" link="{{route('personnels.memberships')}}" />
             </x-mary-menu>
         </x-slot:sidebar>
 
@@ -88,7 +81,7 @@
 
             {{ $slot }}
         </x-slot:content>
-        <x-slot:footer >
+        <x-slot:footer class="py-8 text-white bg-gray-800">
             <x-footer />
         </x-slot:footer>
     </x-main>
