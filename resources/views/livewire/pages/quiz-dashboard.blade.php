@@ -80,9 +80,9 @@ new class extends Component {
 }; ?>
 
 <div>
-    <div class="min-h-screen bg-gray-100 py-6">
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-800 py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl rounded-lg">
+            <div class="bg-white dark:bg-black overflow-hidden shadow-xl rounded-lg">
                 <!-- User Stats -->
                 <div class="p-6 border-b border-gray-200">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -154,7 +154,7 @@ new class extends Component {
                                     <div class="flex justify-between items-center">
                                         <div>
                                             <h3 class="text-lg font-semibold">{{ $attempt->subject->name }}</h3>
-                                            <p class="text-sm text-gray-500">Started: {{ $attempt->started_at->diffForHumans() }}</p>
+                                            <p class="text-sm text-gray-500">Started: {{ $attempt->created_at->diffForHumans() }}</p>
                                         </div>
                                         <a href="{{ route('quiz-attempts.show', $attempt) }}"
                                             class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600">
@@ -178,7 +178,7 @@ new class extends Component {
                                             <p class="text-sm text-gray-500">Completed: {{ $attempt->updated_at->diffForHumans() }}</p>
                                         </div>
                                         <div class="text-right">
-                                            <p class="text-lg font-bold text-green-600">Score: {{ $attempt->score / $attempt->subject->questions_count * 100 }}%</p>
+                                            <p class="text-lg font-bold text-green-600">Score: {{ $attempt->getScore() }}%</p>
                                             <a href="{{ route('quiz-attempts.review', $attempt) }}"
                                                 class="text-blue-500 hover:text-blue-600 text-sm">
                                                 Review Quiz

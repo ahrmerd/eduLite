@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignIdFor(Subject::class)->constrained();
             $table->timestamp('started_at');
             $table->integer('score')->default(0);
+            $table->integer('total')->default(0);
+            $table->json('selected_question_ids');
             $table->enum('status', ['waiting', 'progress', 'completed'])->default('waiting');
             $table->json('answers_json')->nullable();
             $table->timestamps();

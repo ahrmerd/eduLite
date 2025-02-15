@@ -12,7 +12,7 @@ new class extends Component {
     public function mount(QuizAttempt $quizAttempt)
     {
         $this->quizAttempt = $quizAttempt;
-        $this->questions = $quizAttempt->subject->questions;
+        // $this->questions = $quizAttempt->subject->questions;
         $this->userAnswers = $quizAttempt->answers_json;
     }
 
@@ -44,7 +44,7 @@ new class extends Component {
 
 <div class="container p-4 mx-auto">
     <h1 class="mb-4 text-2xl font-bold">Quiz Review: {{ $quizAttempt->subject->name }}</h1>
-    <p class="mb-4">Your Score: {{ $quizAttempt->score }} / {{ $questions->count() }}</p>
+    <p class="mb-4">Your Score: {{ $quizAttempt->score }} / {{ $quizAttempt->total }}</p>
 
     <div class="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
         <h2 class="mb-4 text-xl">Question {{ $currentQuestionIndex + 1 }} of {{ count($questions) }}</h2>

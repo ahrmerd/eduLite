@@ -16,7 +16,7 @@ new class extends Component
     public function mount(QuizAttempt $quizAttempt)
     {
         $this->quizAttempt = $quizAttempt;
-        $this->questions = $quizAttempt->subject->questions;
+        // $this->questions = $quizAttempt->subject->questions;
         $this->timeRemaining = $this->calculateTimeRemaining();
     }
 
@@ -61,10 +61,13 @@ new class extends Component
 
     private function calculateTimeRemaining()
     {
-        $startTime = $this->quizAttempt->started_at;
+        $startTime = $this->quizAttempt->created_at;
         $timeLimit = $this->quizAttempt->subject->loadCount('questions')->calculateTimeLimit() * 60; // Convert to seconds
-        $elapsedTime = $startTime->diffInSeconds(now());
-        // $elapsedTime = now()->diffInSeconds($startTime);
+        // var_dump($timeLimit);
+        // $elapsedTime = $startTime->diffInSeconds(now());
+        // var_dump($startTime->toString());
+        // var_dump($elapsedTime);
+        $elapsedTime = now()->diffInSeconds($startTime) * -1;
         // dump($elapsedTime);
         return max(0, $timeLimit - $elapsedTime);
     }
@@ -72,13 +75,14 @@ new class extends Component
     private function calculateScore()
     {
         $score = 0;
+        $total = count($this->questions);
         $answers = $this->quizAttempt->answers_json;
         foreach ($this->questions as $question) {
             if (isset($answers[$question->id]) && $answers[$question->id] == $question->correct_answer) {
                 $score++;
             }
         }
-        $this->quizAttempt->update(['score' => $score]);
+        $this->quizAttempt->update(['score' => $score, 'total'=> $total]);
     }
 
     public function with(): array
@@ -102,7 +106,7 @@ new class extends Component
 
         </x-primary-button>
     </div>
-    <p>Your score: {{ $quizAttempt->score }} / {{ $questions->count() }}</p>
+    <p>Your score: {{ $quizAttempt->score }} / {{ $quizAttempt->total }}</p>
     @else
     <div x-data="{ timeRemaining: $wire.timeRemaining }" x-init="setInterval(() => { 
                  if(timeRemaining > 0) { 
@@ -119,7 +123,7 @@ new class extends Component
     </div>
 
     @if (isset($questions[$currentQuestionIndex]))
-    <div class="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
+    <div class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-600 rounded shadow-md">
         <h2 class="mb-4 text-xl">Question {{ $currentQuestionIndex + 1 }} of {{ count($questions) }}</h2>
         <p class="mb-4">{{ $questions[$currentQuestionIndex]->content }}</p>
 

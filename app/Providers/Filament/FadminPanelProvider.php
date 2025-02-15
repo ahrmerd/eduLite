@@ -25,7 +25,7 @@ class FadminPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('fadmin')
-            ->path('fadmin')
+            ->path('sadmin')
             ->login()
             ->colors([
                 'primary' => Color::Amber,

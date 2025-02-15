@@ -56,11 +56,13 @@ new #[Layout('components.layouts.admin')] class extends Component
             'total_attempts' => $attempts->count(),
             'average_score' => $attempts->avg(function ($attempt) {
                 // dd($attempt->subject->loadCount('questions'));
-                return ($attempt->score / $attempt->subject->questions()->count()) * 100;
+                return ($attempt->getScore());
             }),
             'top_score' => $attempts->max(function ($attempt) {
-
-                return ($attempt->score / $attempt->subject->questions()->count()) * 100;
+                // return ($attempt->loadCount('questions')->getScore());
+                return ($attempt->getScore());
+                
+                // return ($attempt->score / $attempt->subject->questions()->count()) * 100;
             }),
             'completion_rate' => round(($query->where('status', 'completed')->count() / max(1, $query->count())) * 100, 2),
         ];
@@ -124,18 +126,20 @@ new #[Layout('components.layouts.admin')] class extends Component
 
     private function generateCsv()
     {
-        $headers = ['Rank', 'User', 'Subject', 'Score (%)', 'Date'];
+        $headers = ['Rank', 'User', 'Subject', 'score' ,'Total' ,'Score (%)', 'Date'];
         $data = $this->scoreboard;
 
         $output = fopen('php://output', 'w');
         fputcsv($output, $headers);
 
         foreach ($data as $row) {
-            $percentageScore = ($row->score / $row->subject->questions_count) * 100;
+            $percentageScore = $row->getScore();
             fputcsv($output, [
                 $row->qrank,
                 $row->user->name,
                 $row->subject->name,
+                $row->score,
+                $row->total,
                 number_format($percentageScore, 1) . '%',
                 $row->created_at->format('Y-m-d H:i:s'),
             ]);
@@ -265,8 +269,10 @@ new #[Layout('components.layouts.admin')] class extends Component
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rank</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quiz</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score%</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                             </tr>
                         </thead>
@@ -276,7 +282,9 @@ new #[Layout('components.layouts.admin')] class extends Component
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $attempt->qrank }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ $attempt->user->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $attempt->subject->name }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ ($attempt->score/$attempt->subject->questions_count)*100 }}%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $attempt->score }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $attempt->total }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $attempt->getScore() }}%</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $attempt->created_at->format('Y-m-d H:i') }}</td>
                             </tr>
                             @endforeach

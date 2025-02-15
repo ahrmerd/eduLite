@@ -22,8 +22,11 @@ class Subject extends Model
         return $this->hasMany(QuizAttempt::class);
     }
 
-    public function calculateTimeLimit(){
-        return $this->questions_count * 2;
+    public function calculateTimeLimit() {
+        if ($this->questions_count < $this->questions_per_quiz) {
+            return $this->questions_count * $this->mins_per_question;
+        }
+        return $this->questions_per_quiz * $this->mins_per_question;
     }
 
     public function tutorials()

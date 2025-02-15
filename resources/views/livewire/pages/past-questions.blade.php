@@ -31,7 +31,6 @@ new class extends Component {
         ->paginate(10);
     }
 
-
     public function with(){
         return [
             'materials' => $this->getPastQuetions(),

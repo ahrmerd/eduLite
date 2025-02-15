@@ -127,6 +127,12 @@ new #[Layout('components.layouts.admin')] class extends Component
     {
         $this->createModal = false;
     }
+    #[On('model-updated'), On('model-created')]
+    public function refreshModels()
+    {
+        $this->models = $this->models();
+    }
+
 
     public function deleteSelected()
     {

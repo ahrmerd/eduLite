@@ -28,7 +28,7 @@ new class extends Component {
     public $existingFile;
 
     #[On('model-changed')]
-    public function updateModel(Subject $model)
+    public function updateModel(PastQuestionMaterial $model)
     {
         $this->model = $model;
         // dump($this->model);

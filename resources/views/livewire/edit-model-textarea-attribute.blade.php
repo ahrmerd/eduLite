@@ -77,7 +77,7 @@ new class extends Component
     @else
         <div class="flex items-center gap-3">
             <div class="flex-1">
-                <x-mary-input 
+                <x-mary-textarea
                     type="{{ $type }}" 
                     wire:model="value"
                     label="{{ $label }}"

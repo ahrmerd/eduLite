@@ -8,7 +8,7 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <livewire:review-attempt :quizAttempt="$quizAttempt" />
+                    <livewire:review-attempt :questions="$questions" :quizAttempt="$quizAttempt" />
                     <form action="{{ route('quiz-attempts.store', $quizAttempt->subject->id) }}" method="post">
                         @csrf
                         <input type="text" hidden name="subject_id" value="{{$quizAttempt->subject->id}}" id="">

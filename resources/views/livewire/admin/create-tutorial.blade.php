@@ -33,7 +33,7 @@ new class extends Component {
             
             $tutorial = Tutorial::query()->create($data);
 
-            $this->dispatch('tutorial-created', tutorial: $tutorial);
+            $this->dispatch('model-created', tutorial: $tutorial);
             $this->reset(['subject_id', 'link']);
             $this->success(
                 'Successful', 

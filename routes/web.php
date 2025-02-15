@@ -9,10 +9,14 @@ use App\Models\QuizAttempt;
 use App\Models\Subject;
 
 
-Route::view('/', 'welcome');
+Route::view('/', 'dashboard')->middleware(['auth',]);
+Route::get('/admin', function(){
+    return redirect('/admin/dashboard');
+});
 
 Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
+    // ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
 Route::view('profile', 'profile')
@@ -51,15 +55,15 @@ Route::middleware(['auth', CheckRole::class . ':admin'])->group(function (): voi
         ->name('admin.tutorials');
 
     // Route Model Binding for singular resources
-    Volt::route('/quiz-attempt/{quizAttempt}', 'pages.admin.quiz-attempt')
+    Volt::route('admin/quiz-attempts/{quizAttempt}', 'pages.admin.quiz-attempt')
         ->name('admin.quiz-attempt');
 
-    Volt::route('/admin/subject/{subject}/edit-quiz', 'pages.admin.edit-quiz')
+    Volt::route('/admin/subjects/{subject}/edit-quiz', 'pages.admin.edit-quiz')
         ->name('admin.edit-quiz');
 
 
     //will do to show all the stuffs in a subject
-    Volt::route('/admin/subject/{subject}', 'pages.admin.subject')
+    Volt::route('/admin/subjects/{subject}', 'pages.admin.subject')
         ->name('admin.subject');
 
     // Non-model-bound routes

@@ -28,10 +28,6 @@ new class extends Component
     public function updateModel(Tutorial $model)
     {
         $this->model = $model;
-        // dump($this->model);
-        // dump($model);
-        // $this->reasonForRequest = '';
-        // $this->dispatch('reset-form', attrs: $model);
     }
 
     #[On('model-updated')]
@@ -50,18 +46,23 @@ new class extends Component
 
         </h2>
 
+        <div class="border rounded-lg shadow p-4">
+            <div class="mt-4">
+                <livewire:edit-model-attribute class="border rounded-md" attribute="link" :model="$this->model" rules='required|url' />
+            </div>
+            <div class="mt-4">
+                <livewire:edit-model-attribute class="border rounded-md" attribute="title" :model="$this->model" rules='required|string' />
+            </div>
+        </div>
 
 
-
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        
+        
+        
+        <p class="mt-8 text-xs text-gray-600 dark:text-gray-400">
             Created at: {{ $this->model->created_at  }}. ||
             Updated at: {{ $this->model->updated_at }}
         </p>
-
-        <livewire:edit-model-attribute class="border rounded-md" attribute="link" :model="$this->model" rules='required|string' />
-
-
-
 
 
         <!-- utility buttons -->

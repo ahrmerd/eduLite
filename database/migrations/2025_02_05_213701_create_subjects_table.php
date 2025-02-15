@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description')->nullable();
+            $table->integer('questions_per_quiz')->default(30);
+            $table->float('mins_per_question')->default(2);
             // $table->foreignIdFor(User::class)->constrained();
             $table->timestamps();
         });

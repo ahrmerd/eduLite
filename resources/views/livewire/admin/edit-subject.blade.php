@@ -56,8 +56,19 @@ new class extends Component
             Created at: {{ $this->model->created_at  }}. ||
             Updated at: {{ $this->model->updated_at }}
         </p>
-
-        <livewire:edit-model-attribute class="border rounded-md" attribute="name" :model="$this->model" rules='required|string' />
+        
+        <div class="mt-4">
+            <livewire:edit-model-attribute class="border rounded-md" attribute="name" :model="$this->model" rules='required|string|unique:subjects,name' />
+        </div>
+        <div class="mt-4">
+            <livewire:edit-model-textarea-attribute class="border rounded-md" attribute="description" :model="$this->model" rules='string' />
+        </div>
+        <div class="mt-4">
+            <livewire:edit-model-attribute class="border rounded-md" type="number" attribute="questions_per_quiz" :model="$this->model" rules='integer|min:1' />
+        </div>
+        <div class="mt-4">
+            <livewire:edit-model-attribute class="border rounded-md" type="number" attribute="mins_per_question" :model="$this->model" rules='numeric|min:0.1' />
+        </div>
 
 
 

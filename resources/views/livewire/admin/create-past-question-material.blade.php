@@ -62,7 +62,7 @@ new class extends Component {
                 'link' => $filePath
             ]);
 
-            $this->dispatch('material-created', material: $material);
+            $this->dispatch('model-created', material: $material);
             $this->reset(['subject_id', 'year', 'file']);
             $this->success(
                 'Successful', 
@@ -81,7 +81,7 @@ new class extends Component {
 
     public function cancelled(): void
     {
-        $this->dispatch('material-create-cancelled');
+        $this->dispatch('model-create-cancelled');
     }
 }; ?>
 

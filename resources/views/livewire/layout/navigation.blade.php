@@ -9,7 +9,13 @@ new class extends Component
      * Log the current user out of the application.
      */
 
-    public $navRoutes = [];
+    public $navRoutes = [
+        'dashboard' => 'Dashboard',
+        'donate' => 'Donate',
+        'quiz-dashboard' => 'Q & A',
+        'past-questions' => 'Past Questions',
+        'tutorials' => 'Tutorials'
+    ];
     public function logout(Logout $logout): void
     {
         $logout();
@@ -25,7 +31,7 @@ new class extends Component
             <!-- Logo -->
             <div class="shrink-0 flex items-center">
                 <a href="{{ route('dashboard') }}" wire:navigate>
-                    <x-application-logo class="block h-9 w-auto fill-current text-white" />
+                    <x-application-logo class="block max-w-[80px] h-9 w-auto fill-current text-white" />
                 </a>
             </div>
 
@@ -34,19 +40,18 @@ new class extends Component
 
             </div>
 
-            <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate class="text-white px-4 hover:text-gray-300 font-bold">
-                    {{ __('Dashboard') }}
+                @foreach ($navRoutes as $route => $label)
+                <x-nav-link :href="route($route)" :active="request()->routeIs($route)" wire:navigate class="text-white px-4 hover:text-gray-300 font-bold">
+                    {{ $label }}
                 </x-nav-link>
-                <x-nav-link :href="route('donate')" :active="request()->routeIs('donate')" wire:navigate class="text-white px-4 hover:text-gray-300 font-bold">
-                    Donate
-                </x-nav-link>
+                @endforeach
+
                 <x-mary-dropdown label="{{ auth()->user()->name}}" class=" border-0 text-white bg-[#800000] " right>
-                    <x-mary-menu-item class="text-black" title="Profile"  link="{{ route('profile') }}" />
-                    <x-mary-menu-item  class="text-red-800"  wire:click="logout" title="Logout" />
+                    <x-mary-menu-item class="text-black" title="Profile" link="{{ route('profile') }}" />
+                    <x-mary-menu-item class="text-red-800" wire:click="logout" title="Logout" />
                 </x-mary-dropdown>
-                
+
             </div>
 
             <!-- Hamburger -->
@@ -64,12 +69,15 @@ new class extends Component
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate class="text-white bg-[#800000] hover:bg-[#700000]">
-                {{ __('Dashboard') }}
+            @foreach ($navRoutes as $route => $label)
+            <x-responsive-nav-link
+                :href="route($route)"
+                :active="request()->routeIs($route)"
+                wire:navigate
+                class="text-white bg-[#800000] hover:bg-[#700000]">
+                {{$label}}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('donate')" :active="request()->routeIs('donate')" wire:navigate class="text-white bg-[#800000] hover:bg-[#700000]">
-                Donate
-            </x-responsive-nav-link>
+            @endforeach
         </div>
 
         <!-- Responsive Settings Options -->

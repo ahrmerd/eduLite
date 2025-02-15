@@ -64,7 +64,7 @@ new #[Layout('components.layouts.admin')] class extends Component
                                     <td class="px-4 py-2">
                                         {{ $attempt->status === 'completed' ? ($attempt->score/$attempt->subject->questions_count)*100 . '%' : 'N/A' }}
                                     </td>
-                                    <td class="px-4 py-2">{{ $attempt->started_at->format('M d, Y H:i') }}</td>
+                                    <td class="px-4 py-2">{{ $attempt->created_at->format('M d, Y H:i') }}</td>
                                     <td class="px-4 py-2">
                                         @if($attempt->status === 'progress')
                                         <p>...</p>

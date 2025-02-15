@@ -30,10 +30,10 @@
         @endif
 
         <!-- Page Content -->
-        <main>
+        <main class="py-4">
             {{ $slot }}
         </main>
-        <footer class=" text-center p-4 bg-[#800000] text-white font-bold absolute bottom-0 left-0 right-0">
+        <footer class="mt-6 text-center p-4 bg-[#800000] text-white font-bold absolute bottom-0 left-0 right-0">
             <p>© 2025 Edufund Africa Initiative. All Rights Reserved.</p>
         </footer>
     </div>

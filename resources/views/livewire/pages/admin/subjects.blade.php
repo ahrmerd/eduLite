@@ -146,6 +146,13 @@ new #[Layout('components.layouts.admin')] class extends Component
     }
 
 
+    #[On('model-updated'), On('model-created')]
+    public function refreshModels()
+    {
+        $this->models = $this->models();
+    }
+
+
     public function deleteSelected()
     {
         $this->confirm('bulk delete');
@@ -165,7 +172,9 @@ new #[Layout('components.layouts.admin')] class extends Component
         return [
             ['key' => 'id', 'label' => '#'],
             ['key' => 'name', 'label' => 'Name'],
-            ['key' => 'link', 'label' => 'Quiz'],
+            ['key' => 'questions_per_quiz', 'label' => 'Questions Per Quiz'],
+            ['key' => 'mins_per_question', 'label' => 'Minutes Per Question'],
+            ['key' => 'link', 'label' => 'Quiz Action'],
 
 
         ];
@@ -289,58 +298,6 @@ new #[Layout('components.layouts.admin')] class extends Component
         @endif
     </x-mary-modal>
 
-    <style>
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .loading-dot {
-            animation: bounce 0.5s infinite;
-            display: inline-block;
-        }
-
-        .loading-dot:nth-child(2) {
-            animation-delay: 0.1s;
-        }
-
-        .loading-dot:nth-child(3) {
-            animation-delay: 0.2s;
-        }
-
-        .loading-dot:nth-child(4) {
-            animation-delay: 0.3s;
-        }
-    </style>
 
     <x-mary-modal wire:model="confirmModal" title="Confirm Action" class="backdrop-blur">
         <div class="relative">
