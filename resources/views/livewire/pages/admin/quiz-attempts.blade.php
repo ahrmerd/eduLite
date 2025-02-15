@@ -32,14 +32,23 @@ new #[Layout('components.layouts.admin')] class extends Component
 
 <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="mb-8">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Quiz Attempts</h1>
+            </div>
+            
+        </div>
+        <div class="mt-4 border-b border-gray-200 dark:border-gray-700"></div>
+    </div>
             <div class="overflow-hidden bg-white shadow-sm dark:bg-gray-800 sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if($quizAttempts->isEmpty())
                     <p class="text-gray-600">There arent any attempted quizzes yet.</p>
                     @else
                     <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white">
-                            <thead class="bg-gray-100">
+                        <table class="min-w-full">
+                            <thead class="">
                                 <tr>
                                     <th class="px-4 py-2 text-left">User</th>
                                     <th class="px-4 py-2 text-left">Subject</th>

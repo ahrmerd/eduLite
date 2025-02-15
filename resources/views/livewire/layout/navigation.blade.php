@@ -10,7 +10,7 @@ new class extends Component
      */
 
     public $navRoutes = [
-        'dashboard' => 'Dashboard',
+        'dashboard' => 'Home',
         'donate' => 'Donate',
         'quiz-dashboard' => 'Q & A',
         'past-questions' => 'Past Questions',
@@ -48,7 +48,7 @@ new class extends Component
                 @endforeach
 
                 <x-mary-dropdown label="{{ auth()->user()->name}}" class=" border-0 text-white bg-[#800000] " right>
-                    <x-mary-menu-item class="text-black" title="Profile" link="{{ route('profile') }}" />
+                    <x-mary-menu-item class="text-black dark:text-white" title="Profile" link="{{ route('profile') }}" />
                     <x-mary-menu-item class="text-red-800" wire:click="logout" title="Logout" />
                 </x-mary-dropdown>
 

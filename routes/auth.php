@@ -30,7 +30,7 @@ Route::middleware('auth')->group(function () {
 
         Session::invalidate();
         Session::regenerateToken();
-        $this->redirect('/', navigate: true);
+        return redirect('/');
         
     })->name('logout');
     Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)

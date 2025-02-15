@@ -74,10 +74,11 @@ new #[Layout('components.layouts.admin')] class extends Component
 }
 ?>
 <!-- Main Content -->
-<div class="flex-1 overflow-auto">
-    <header class="bg-white shadow">
+<div class="flex-1 overflow-auto bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300">
+    <!-- Header -->
+    <header class="bg-white dark:bg-gray-800 shadow">
         <div class="px-6 py-4">
-            <h2 class="text-xl font-semibold text-gray-800">Dashboard Overview</h2>
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Dashboard Overview</h2>
         </div>
     </header>
 
@@ -85,37 +86,37 @@ new #[Layout('components.layouts.admin')] class extends Component
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             @foreach($stats as $stat)
-            <div class="bg-white rounded-lg shadow p-6">
-                <h3 class="text-sm font-medium text-gray-500">{{ $stat['label'] }}</h3>
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ $stat['label'] }}</h3>
                 <div class="mt-2 flex items-baseline">
-                    <p class="text-2xl font-semibold text-gray-900">{{ $stat['value'] }}</p>
-                    <span class="ml-2 text-sm font-medium text-green-600">{{ $stat['change'] }}</span>
+                    <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ $stat['value'] }}</p>
+                    <span class="ml-2 text-sm font-medium text-green-600 dark:text-green-400">{{ $stat['change'] }}</span>
                 </div>
             </div>
             @endforeach
         </div>
 
         <!-- Recent Activity -->
-        <div class="bg-white rounded-lg shadow">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
             <div class="p-6">
-                <h3 class="text-lg font-medium text-gray-900">Recent Activity</h3>
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Recent Activity</h3>
                 <div class="mt-6">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                         <thead>
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">User</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Subject</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Time</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">User</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Action</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Subject</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Time</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-gray-200">
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
                             @foreach($recentActivity as $activity)
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $activity['user'] }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $activity['action'] }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $activity['subject'] }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $activity['time'] }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{{ $activity['user'] }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $activity['action'] }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $activity['subject'] }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{{ $activity['time'] }}</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -91,10 +91,10 @@ new class extends Component
 
             foreach ($records as $record) {
                 $rowNumber++;
-                
+
                 // Convert record to array for easier handling
                 $row = array_values($record);
-                
+
                 // Validate minimum required fields
                 if (count($row) < 4) { // Question + Correct Option + Number of Options + at least 1 option
                     $this->error('Error', "Row $rowNumber: Each row must have at least a question, correct option number, number of options, and at least one option.");
@@ -104,14 +104,14 @@ new class extends Component
                 $question = $row[0];
                 $correctOption = (int)$row[1];
                 $numOptions = (int)$row[2];
-                
+
                 // Extract options
                 $options = array_slice($row, 3, $numOptions);
-                
+
                 // Validate number of options matches declared count
                 if (count($options) !== $numOptions) {
                     $this->error('Error', "Row $rowNumber: Number of options doesn't match the declared count.");
-                    $this->error('Error',"Expected Number of Options: " . $numOptions . "Found options " . count($options),  timeout: 9000);
+                    $this->error('Error', "Expected Number of Options: " . $numOptions . "Found options " . count($options),  timeout: 9000);
                     return;
                 }
 
@@ -126,7 +126,7 @@ new class extends Component
                     $this->error('Error', "Row $rowNumber: Each question must have at least 2 options.");
                     return;
                 }
-                
+
 
                 $newQuestions[] = [
                     'content' => $question,
@@ -137,10 +137,10 @@ new class extends Component
 
             // dump($newQuestions);
             // dd($this->questions);
-            $this->questions = array_merge($this->questions , $newQuestions);
+            $this->questions = array_merge($this->questions, $newQuestions);
             // [] = $newQuestions;
             // $this->success('Success', 'CSV file uploaded and processed successfully!');
-            
+
         } catch (\Exception $e) {
             Log::error($e);
             $this->error('Error', 'Failed to process CSV file. Please ensure it matches the sample format.');
@@ -157,14 +157,14 @@ new class extends Component
         // ];
 
         // $csv = Writer::createFromString('');
-        
+
         // Headers with dynamic options
         // $csv->insertOne(['Question', 'Correct Option Number', 'Number of Options', 'Options...']);
         $headers = ['Question', 'Correct Option Number', 'Number of Options', 'Options...'];
-        
-        $question1= ['What is 2 + 2?', '2', '4', '3', '4', '5', '6'];
-        $question2= ['Which planet is closest to the Sun?', '2', '3', 'Venus', 'Mercury', 'Mars'];
-        $question3= ['True or False: Water boils at 100°C at sea level', '1', '2', 'True', 'False'];
+
+        $question1 = ['What is 2 + 2?', '2', '4', '3', '4', '5', '6'];
+        $question2 = ['Which planet is closest to the Sun?', '2', '3', 'Venus', 'Mercury', 'Mars'];
+        $question3 = ['True or False: Water boils at 100°C at sea level', '1', '2', 'True', 'False'];
         // Sample data with varying numbers of options
         // $csv->insertOne(['What is 2 + 2?', '2', '4', '3', '4', '5', '6']);
         // $csv->insertOne(['Which planet is closest to the Sun?', '2', '3', 'Venus', 'Mercury', 'Mars']);
@@ -190,7 +190,7 @@ new class extends Component
         // return response($csv->toString(), 200, $headers);
     }
 
-    
+
 
     /**
      * Customize attribute names for error messages.
@@ -205,7 +205,7 @@ new class extends Component
     }
 
     public function downloadCurrentQuestions()
-    {        
+    {
         $sName = $this->subject->name;
         $headers = ['Question', 'Correct Option Number', 'Number of Options', 'Options...'];
         return response()->streamDownload(function () use ($headers): void {
@@ -222,17 +222,15 @@ new class extends Component
                     $question['correct_answer'] + 1, // Convert to 1-based indexing
                     count($question['options']),
                 ];
-                
+
                 // Add all options
                 $row = array_merge($row, $question['options']);
                 fputcsv($output, $row);
-                
-                
             }
             fclose($output);
         }, $sName . 'questions.csv', [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename='. $sName . 'questions.csv',
+            'Content-Disposition' => 'attachment; filename=' . $sName . 'questions.csv',
         ]);
     }
 
@@ -351,9 +349,9 @@ new class extends Component
     }
 }; ?>
 
-<div class="max-w-4xl p-6 mx-auto mt-10 bg-white rounded-lg shadow-lg">
-    <h2 class="mb-6 text-3xl font-bold text-gray-800">Edit Quiz </h2>
-    <h2 class="mb-6 text-2xl font-semibold text-gray-900">Subject: {{ $this->subject->name }}</h2>
+<div class="max-w-4xl p-6 mx-auto mt-10  rounded-lg shadow-lg">
+    <h2 class="mb-6 text-3xl font-bold ">Edit Quiz </h2>
+    <h2 class="mb-6 text-2xl font-semibold ">Subject: {{ $this->subject->name }}</h2>
 
     <div class="p-3">
         <div class="m-4">
@@ -364,7 +362,7 @@ new class extends Component
         </div>
     </div>
 
-    <div class="mb-6 p-4 bg-gray-50 rounded-lg">
+    <div class="mb-6 p-4  rounded-lg">
 
         <div class="flex items-center space-x-4 mb-4">
             <button wire:click="downloadSample" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
@@ -377,11 +375,11 @@ new class extends Component
         </div>
 
         <div class="space-y-2">
-            <label class="block text-sm font-medium text-gray-700">
+            <label class="block text-sm font-medium ">
                 Upload CSV File
             </label>
             <div class="flex items-center space-x-4">
-                <input type="file" wire:model="uploadedFile" class="block w-full text-sm text-gray-500
+                <input type="file" wire:model="uploadedFile" class="block w-full text-sm 
                     file:mr-4 file:py-2 file:px-4
                     file:rounded-full file:border-0
                     file:text-sm file:font-semibold
@@ -403,42 +401,73 @@ new class extends Component
 
 
         <div class="space-y-4">
-            @if(count($questions)<1)
-                <p>There are no Questions</p>
-
+            @if(count($questions) < 1)
+                <p class="text-gray-700 dark:text-gray-300">There are no Questions</p>
                 @else
-                <h3 class="text-xl font-semibold text-gray-800">Questions</h3>
-                <p class="text-sm text-gray-800">Questions Count: {{count($questions)}}</p>
+                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Questions</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">Questions Count: {{ count($questions) }}</p>
+
                 @foreach ($questions as $index => $question)
-                <div class="p-4 rounded-md shadow bg-gray-50">
-                    <input type="text" wire:model.live="questions.{{ $index }}.content" placeholder="Enter your question here" class="block w-full mb-3 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <div class="p-4 rounded-md shadow bg-gray-50 dark:bg-gray-800">
+                    <!-- Question Input -->
+                    <input
+                        type="text"
+                        wire:model.live="questions.{{ $index }}.content"
+                        placeholder="Enter your question here"
+                        class="block w-full mb-3 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 dark:focus:border-indigo-500 dark:focus:ring-indigo-600 focus:ring-opacity-50">
 
                     <div class="mb-3 space-y-2">
                         @foreach ($question['options'] as $optionIndex => $option)
                         <div class="flex items-center">
-                            <input type="text" wire:model.live="questions.{{ $index }}.options.{{ $optionIndex }}" placeholder="Option {{ $optionIndex + 1 }}" class="block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                            <button type="button" wire:click="removeOption({{ $index }}, {{ $optionIndex }})" class="px-2 py-1 ml-2 text-white transition duration-150 ease-in-out bg-red-500 rounded hover:bg-red-600">Remove</button>
+                            <input
+                                type="text"
+                                wire:model.live="questions.{{ $index }}.options.{{ $optionIndex }}"
+                                placeholder="Option {{ $optionIndex + 1 }}"
+                                class="block w-full border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 dark:focus:border-indigo-500 dark:focus:ring-indigo-600 focus:ring-opacity-50">
+                            <button
+                                type="button"
+                                wire:click="removeOption({{ $index }}, {{ $optionIndex }})"
+                                class="px-2 py-1 ml-2 text-white transition duration-150 ease-in-out bg-red-500 rounded hover:bg-red-600">
+                                Remove
+                            </button>
                         </div>
                         @endforeach
                     </div>
 
                     <div class="flex items-center justify-between">
-                        <select wire:model.live="questions.{{ $index }}.correct_answer" class="block w-1/2 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <!-- Correct Answer Dropdown -->
+                        <select
+                            wire:model.live="questions.{{ $index }}.correct_answer"
+                            class="block w-1/2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 dark:focus:border-indigo-500 dark:focus:ring-indigo-600 focus:ring-opacity-50">
                             <option value="">Select correct answer</option>
                             @foreach ($question['options'] as $optionIndex => $option)
-                            <option value="{{ $optionIndex }}">Option {{ $optionIndex + 1 }} ({{ $question['options'][$optionIndex] }}) is correct</option>
+                            <option value="{{ $optionIndex }}">
+                                Option {{ $optionIndex + 1 }} ({{ $question['options'][$optionIndex] }}) is correct
+                            </option>
                             @endforeach
                         </select>
-                        <button type="button" wire:click="removeQuestion({{ $index }})" class="px-3 py-1 text-white transition duration-150 ease-in-out bg-red-500 rounded hover:bg-red-600">Remove Question</button>
+
+                        <!-- Remove Question Button -->
+                        <button
+                            type="button"
+                            wire:click="removeQuestion({{ $index }})"
+                            class="px-3 py-1 text-white transition duration-150 ease-in-out bg-red-500 rounded hover:bg-red-600">
+                            Remove Question
+                        </button>
                     </div>
 
-                    <button type="button" wire:click="addOption({{ $index }})" class="px-4 py-2 mt-2 text-white transition duration-150 ease-in-out bg-green-500 rounded hover:bg-green-600">
+                    <!-- Add Option Button -->
+                    <button
+                        type="button"
+                        wire:click="addOption({{ $index }})"
+                        class="px-4 py-2 mt-2 text-white transition duration-150 ease-in-out bg-green-500 rounded hover:bg-green-600">
                         Add Option
                     </button>
                 </div>
                 @endforeach
                 @endif
         </div>
+
 
         <div class="flex items-center justify-between">
             <button type="button" wire:click="addQuestion" class="px-4 py-2 text-white transition duration-150 ease-in-out bg-green-500 rounded hover:bg-green-600">
