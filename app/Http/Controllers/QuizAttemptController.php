@@ -61,7 +61,6 @@ class QuizAttemptController extends Controller
             'user_id' => auth()->id(),
             'selected_question_ids' => $selectedQuestionIds,
             'subject_id' => $subject->id,
-            'started_at' => now(),
             'status' => 'progress'
         ]);
         return redirect(route('quiz-attempts.show', $attempt));
