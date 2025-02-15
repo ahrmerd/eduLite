@@ -4,6 +4,7 @@ use Livewire\Volt\Component;
 use App\Models\QuizAttempt;
 use App\Models\Question;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 new class extends Component
 {
@@ -18,18 +19,30 @@ new class extends Component
         $this->quizAttempt = $quizAttempt;
         // $this->questions = $quizAttempt->subject->questions;
         $this->timeRemaining = $this->calculateTimeRemaining();
+        $this->loadSelectedAnswer();
     }
 
     public function nextQuestion()
     {
         $this->currentQuestionIndex++;
-        $this->selectedAnswer = null;
+        // $this->selectedAnswer = null;
+        $this->loadSelectedAnswer();
+
+    }
+
+    private function loadSelectedAnswer()
+    {
+        $currentQuestion = $this->questions[$this->currentQuestionIndex] ?? null;
+        $answers = $this->quizAttempt->answers_json ?? [];
+        $this->selectedAnswer = $currentQuestion ? $answers[$currentQuestion->id] ?? null : null;
     }
 
     public function previousQuestion()
     {
         $this->currentQuestionIndex--;
-        $this->selectedAnswer = null;
+        $this->loadSelectedAnswer();
+
+        // $this->selectedAnswer = null;
     }
 
     public function saveAnswer()
@@ -45,18 +58,27 @@ new class extends Component
 
     public function completeQuiz()
     {
-        $this->saveAnswer();
-        $this->quizAttempt->update(['status' => 'completed']);
+        // Log::info('will Start completing');
+        // $this->saveAnswer();
+        // Log::info('in completing');
+
         $this->calculateScore();
+
         $this->redirect(route('quiz-attempts.show', $this->quizAttempt));
     }
 
     public function checkTimeLimit()
     {
+        // Log::info('Will Check Limit' );
+
         $this->timeRemaining = $this->calculateTimeRemaining();
         if ($this->timeRemaining <= 0) {
+            // Log::info('No Time REmaining');
             $this->completeQuiz();
+            return;
         }
+        // Log::info('Time REmaining'. $this->timeRemaining);
+
     }
 
     private function calculateTimeRemaining()
@@ -82,7 +104,7 @@ new class extends Component
                 $score++;
             }
         }
-        $this->quizAttempt->update(['score' => $score, 'total'=> $total]);
+        $this->quizAttempt->update(['score' => $score, 'total'=> $total, 'status' => 'completed']);
     }
 
     public function with(): array
@@ -100,7 +122,7 @@ new class extends Component
     <div class="p-4 mb-4 text-yellow-700 bg-yellow-100 border-l-4 border-yellow-500" role="alert">
         <p>This quiz attempt has been completed.</p>
         <x-primary-button>
-            <a href="{{ route('quiz-attempts.review', $quizAttempt) }}">
+            <a wire:navigate href="{{ route('quiz-attempts.review', $quizAttempt) }}">
                 Review
             </a>
 
@@ -109,7 +131,7 @@ new class extends Component
     <p>Your score: {{ $quizAttempt->score }} / {{ $quizAttempt->total }}</p>
     @else
     <div x-data="{ timeRemaining: $wire.timeRemaining }" x-init="setInterval(() => { 
-                 if(timeRemaining > 0) { 
+                 if(timeRemaining > -1) { 
                      timeRemaining--; 
                      $wire.checkTimeLimit();
                  } 

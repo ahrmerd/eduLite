@@ -46,7 +46,7 @@ new class extends Component {
     <h1 class="mb-4 text-2xl font-bold">Quiz Review: {{ $quizAttempt->subject->name }}</h1>
     <p class="mb-4">Your Score: {{ $quizAttempt->score }} / {{ $quizAttempt->total }}</p>
 
-    <div class="px-8 pt-6 pb-8 mb-4 bg-white rounded shadow-md">
+    <div class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-600 rounded shadow-md">
         <h2 class="mb-4 text-xl">Question {{ $currentQuestionIndex + 1 }} of {{ count($questions) }}</h2>
         <p class="mb-4">{{ $currentQuestion->content }}</p>
         

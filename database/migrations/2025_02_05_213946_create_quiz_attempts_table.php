@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Subject::class)->constrained();
-            $table->timestamp('started_at');
+            // $table->timestamp('started_at');
             $table->integer('score')->default(0);
             $table->integer('total')->default(0);
             $table->json('selected_question_ids');

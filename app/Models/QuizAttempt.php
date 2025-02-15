@@ -14,17 +14,7 @@ class QuizAttempt extends Model
     ];
 
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        // Hook into the updating event
-        static::updating(function ($model) {
-            // getDirty() returns the attributes that have been changed
-            $dirty = $model->getDirty();
-            Log::info('Updating model with changes: ' . json_encode($dirty));
-        });
-    }
+   
 
    
     public function user()
