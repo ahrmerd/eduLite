@@ -14,7 +14,7 @@ new class extends Component {
     #[Validate('required|exists:subjects,id')]
     public $subject_id = '';
 
-    #[Validate('required|integer|min:1900|max:2100')]
+    #[Validate('required')]
     public $year = '';
 
     #[Validate('required|file|mimes:pdf,doc,docx|max:10240')] // 10MB max
@@ -42,6 +42,8 @@ new class extends Component {
             $file->getClientOriginalExtension()
         );
 
+        // dd($fileName);
+
         return Storage::disk('public')->putFileAs('', $file, $fileName);
     }
 
@@ -52,6 +54,9 @@ new class extends Component {
             
             // Get subject name for file path
             $subject = Subject::find($data['subject_id'])->name;
+
+            // dump($subject);
+            // dd($data);
             
             // Save file and get path
             $filePath = $this->saveFile($this->file, $data['year'], $subject);
@@ -106,9 +111,6 @@ new class extends Component {
             <x-mary-input
                 wire:model="year"
                 label="Year"
-                type="number"
-                min="1900"
-                max="2100"
                 inline
             />
             <x-input-error :messages="$errors->get('year')" class="mt-2" />

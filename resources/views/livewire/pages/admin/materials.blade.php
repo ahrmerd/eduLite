@@ -272,7 +272,7 @@ new #[Layout('components.layouts.admin')] class extends Component
             </div>
             @endscope
             @scope('cell_link', $material)
-                   <a href='{{ Storage::url($material->link)}}' class="text-blue-600 dark:text-blue-400 hover:underline"> Visit </a>
+                   <a href='{{ Storage::url($material->link)}}' download class="text-blue-600 dark:text-blue-400 hover:underline"> Download </a>
             @endscope
         </x-table>
     </div>

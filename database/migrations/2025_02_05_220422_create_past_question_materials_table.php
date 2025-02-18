@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('past_question_materials', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Subject::class)->constrained();
-            $table->unsignedBigInteger('year');
+            $table->string('year');
             $table->string('link');
             $table->timestamps();
         });

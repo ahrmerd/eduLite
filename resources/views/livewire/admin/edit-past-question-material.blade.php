@@ -18,7 +18,7 @@ new class extends Component {
     #[Validate('required|exists:subjects,id')]
     public $subject_id;
 
-    #[Validate('required|integer|min:1900|max:2100')]
+    #[Validate('required')]
     public $year;
 
     #[Validate('nullable|file|mimes:pdf,doc,docx|max:10240')]
@@ -130,9 +130,7 @@ new class extends Component {
             <x-mary-input
                 wire:model="year"
                 label="Year"
-                type="number"
-                min="1900"
-                max="2100"
+               
                 inline
             />
             <x-input-error :messages="$errors->get('year')" class="mt-2" />

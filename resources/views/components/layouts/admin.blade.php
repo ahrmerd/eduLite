@@ -40,14 +40,16 @@
         </x-slot:brand>
 
         <x-slot:actions>
-            <div class="flex flex-col">
-                <p>{{ auth()->user()->name }}</p>
-                <p class="text-xs">{{ auth()->user()->email }}</p>
-            </div>
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <x-mary-button label="Logout" icon="o-power" type='submit' class="btn-ghost btn-sm" responsive />
-            </form>
+            <x-mary-dropdown label="{{ auth()->user()->name}}" class=" border-0" right>
+                <x-mary-menu-item class="text-black dark:text-white" title="Profile" link="{{ route('profile') }}" />
+                <x-mary-menu-item class="text-red-800" wire:click="logout">
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <x-mary-button label="Logout" icon="o-power" type='submit' class="btn-ghost btn-sm" responsive />
+                    </form>
+
+                    </x-mary-item>
+            </x-mary-dropdown>
         </x-slot:actions>
 
 
@@ -75,7 +77,7 @@
             @endphp
 
             {{-- Activates the menu item when a route matches the `link` property --}}
-           <x-mary-menu activate-by-route>
+            <x-mary-menu activate-by-route>
                 @foreach($sections as $key => $section)
                 <x-mary-menu-item title="{{ $section['label'] }}" icon="{{ $section['icon'] }}" link="{{ route($section['route']) }}" />
                 @endforeach
@@ -88,7 +90,7 @@
 
             {{ $slot }}
         </x-slot:content>
-        <x-slot:footer >
+        <x-slot:footer>
             <x-footer />
         </x-slot:footer>
     </x-main>

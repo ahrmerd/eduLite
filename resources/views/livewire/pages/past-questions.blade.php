@@ -66,7 +66,6 @@ new class extends Component {
             @endforeach
         </select>
         <input
-            type="number"
             wire:model.live="yearFilter"
             placeholder="Filter by year..."
             class="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg 
