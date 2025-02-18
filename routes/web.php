@@ -9,7 +9,10 @@ use App\Models\QuizAttempt;
 use App\Models\Subject;
 
 
-Route::view('/', 'dashboard')->middleware(['auth',]);
+Route::get('/', function(){
+    return to_route('dashboard');
+
+})->middleware(['auth']);
 Route::get('/admin', function(){
     return redirect('/admin/dashboard');
 });
