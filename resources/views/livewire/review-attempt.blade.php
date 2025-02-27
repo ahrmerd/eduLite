@@ -32,11 +32,23 @@ new class extends Component {
 
     public function with(): array
     {
+
+        // $currentQuestion = count($this->questions) > 0 ? $this->questions[$this->currentQuestionIndex] : null;
+        $hasQuestions = count($this->questions) > 0;
+        if (!$hasQuestions) {
+            //dd(count($this->questions));
+            return [
+                'questions' => [],
+                'currentQuestion' => null,
+                'userAnswer' => null,
+            ];
+        }
+
         $questions = $this->questions;
         $currentQuestion = $this->questions[$this->currentQuestionIndex];
         return [
             'questions' => $questions,
-            'currentQuestion' => $currentQuestion ,
+            'currentQuestion' => $currentQuestion,
             'userAnswer' => $this->userAnswers[$currentQuestion->id] ?? null,
         ];
     }
@@ -47,55 +59,62 @@ new class extends Component {
     <p class="mb-4">Your Score: {{ $quizAttempt->score }} / {{ $quizAttempt->total }}</p>
 
     <div class="px-8 pt-6 pb-8 mb-4 bg-white dark:bg-gray-600 rounded shadow-md">
-        <h2 class="mb-4 text-xl">Question {{ $currentQuestionIndex + 1 }} of {{ count($questions) }}</h2>
-        <p class="mb-4">{{ $currentQuestion->content }}</p>
-        
-        @foreach ($currentQuestion->options as $index => $option)
+        @if ($currentQuestion)
+            <h2 class="mb-4 text-xl">Question {{ $currentQuestionIndex + 1 }} of {{ count($questions) }}</h2>
+            <p class="mb-4">{{ $currentQuestion->content }}</p>
+            @foreach ($currentQuestion->options as $index => $option)
             <div class="mb-2">
                 <label class="inline-flex items-center">
-                    <input type="radio" class="form-radio" disabled 
-                           @if($userAnswer == $index) checked @endif>
+                    <input type="radio" class="form-radio" disabled
+                        @if($userAnswer==$index) checked @endif>
                     <span class="ml-2 {{ $index == $currentQuestion->correct_answer ? 'text-green-600 font-bold' : '' }}
-                                 {{ $userAnswer == $index && $index != $currentQuestion->correct_answer ? 'text-red-600' : '' }}">
+                                    {{ $userAnswer == $index && $index != $currentQuestion->correct_answer ? 'text-red-600' : '' }}">
                         {{ $option }}
                     </span>
                 </label>
             </div>
-        @endforeach
+            @endforeach
 
-        @if ($userAnswer !== null && $userAnswer != $currentQuestion->correct_answer)
+            @if ($userAnswer !== null && $userAnswer != $currentQuestion->correct_answer)
             <p class="mt-2 text-red-600">Your answer was incorrect.</p>
-        @elseif ($userAnswer !== null)
+            @elseif ($userAnswer !== null)
             <p class="mt-2 text-green-600">Your answer was correct!</p>
-        @else
+            @else
             <p class="mt-2 text-yellow-600">You didn't answer this question.</p>
+            @endif
+        @else
+            <p class="mb-4 text-red-500">No questions available for this quiz attempt.</p>
         @endif
+
+
+
+
     </div>
 
     <div class="flex justify-between">
-        <button wire:click="previousQuestion" class="px-4 py-2 font-bold text-white bg-gray-500 rounded hover:bg-gray-700" 
-                @if($currentQuestionIndex === 0) disabled @endif>
+        <button wire:click="previousQuestion" class="px-4 py-2 font-bold text-white bg-gray-500 rounded hover:bg-gray-700"
+            @if($currentQuestionIndex===0) disabled @endif>
             Previous
         </button>
         <button wire:click="nextQuestion" class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700"
-                @if($currentQuestionIndex === count($questions) - 1) disabled @endif>
+            @if($currentQuestionIndex===count($questions) - 1) disabled @endif>
             Next
         </button>
     </div>
 
     <div class="mt-8">
-       {{--  <h3 class="mb-2 text-lg font-semibold">Question Navigation</h3>
+        {{-- <h3 class="mb-2 text-lg font-semibold">Question Navigation</h3>
         <div class="flex flex-wrap gap-2">
             @foreach ($questions as $index => $question)
-                <button wire:click="$set('currentQuestionIndex', {{ $index }})" 
-                        class="w-8 h-8 flex items-center justify-center rounded-full 
-                               {{ isset($userAnswers[$question->id]) ? 
+                <button wire:click="$set('currentQuestionIndex', {{ $index }})"
+        class="w-8 h-8 flex items-center justify-center rounded-full
+        {{ isset($userAnswers[$question->id]) ? 
                                   ($userAnswers[$question->id] == $question->correct_answer ? 'bg-green-500' : 'bg-red-500') : 
                                   'bg-gray-300' }} text-white">
-                    {{ $index + 1 }}
-                </button>
-            @endforeach
-        </div>
-        --}}
+        {{ $index + 1 }}
+        </button>
+        @endforeach
     </div>
+    --}}
+</div>
 </div>

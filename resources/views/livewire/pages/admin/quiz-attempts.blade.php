@@ -71,14 +71,14 @@ new #[Layout('components.layouts.admin')] class extends Component
                                         </span>
                                     </td>
                                     <td class="px-4 py-2">
-                                        {{ $attempt->status === 'completed' ? ($attempt->score/$attempt->subject->questions_count)*100 . '%' : 'N/A' }}
+                                        {{ $attempt->status === 'completed' ? $attempt->getScore() . '%' : 'N/A' }}
                                     </td>
                                     <td class="px-4 py-2">{{ $attempt->created_at->format('M d, Y H:i') }}</td>
                                     <td class="px-4 py-2">
                                         @if($attempt->status === 'progress')
                                         <p>...</p>
                                         @elseif($attempt->status === 'completed')
-                                        <a href="{{ route('admin.quiz-attempt', $attempt) }}"
+                                        <a href="{{ route('admin.quiz-attempt', $attempt) }}" wire:navigate
                                             class="text-green-600 hover:text-green-800">Review</a>
                                         @endif
                                     </td>
